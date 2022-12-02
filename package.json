@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "test": "yarn jest"
+    "test": "yarn jest --silent --verbose"
   },
   "dependencies": {
     "ts-node": "^10.9.1",
