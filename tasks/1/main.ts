@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const input = fs.readFileSync(path.join(__dirname, "./1.input.txt"), "utf-8");
+const input = fs.readFileSync(path.join(__dirname, "./input.txt"), "utf-8");
 
 export function getSingleMostCalories(input: string) {
   return input
