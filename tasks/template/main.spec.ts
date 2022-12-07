@@ -7,10 +7,10 @@ const input = fs.readFileSync(path.join(__dirname, "./sample.txt"), "utf-8");
 
 describe("Task #n", () => {
   it("Should pass", () => {
-    expect(A(input)).toBe(undefined);
+    expect(A(input)).toBe(null);
   });
 
   it("Should pass", () => {
-    expect(B(input)).toBe(undefined);
+    expect(B(input)).toBe(null);
   });
 });
