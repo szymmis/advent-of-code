@@ -44,14 +44,16 @@ fn part_one(input: &str) -> i32 {
     for line in input.lines() {
         let game_id: i32 = game_re.captures(line).unwrap()["id"].parse().unwrap();
 
-        let mut cubes: Vec<Cube> = Vec::new();
+        let cubes: Vec<Cube> = cubes_re
+            .captures_iter(line)
+            .map(|c| {
+                let (_, [color, count]) = c.extract();
+                Cube::from((color, count))
+            })
+            .collect();
 
-        for (_, [count, color]) in cubes_re.captures_iter(line).map(|c| c.extract()) {
-            cubes.push((count, color).into())
-        }
-
-        println!("{:?}", cubes);
         println!("Game {game_id}");
+        println!("{:?}", cubes);
 
         if cubes.iter().all(|cube| cube.is_valid()) {
             valid_games.push(game_id);
@@ -63,22 +65,19 @@ fn part_one(input: &str) -> i32 {
     valid_games.iter().sum()
 }
 
-fn find_max_cube_of_color(cubes: &Vec<Cube>, color: CubeColor) -> Option<&Cube> {
-    let mut max_cube: Option<&Cube> = None;
-
-    for cube in cubes {
-        if cube.0 == color {
-            if let Some(Cube(_, count)) = max_cube {
-                if cube.1 > *count {
-                    max_cube = Some(cube);
-                }
+fn find_max_cube_of_color(cubes: &[Cube], color: CubeColor) -> &Cube {
+    cubes
+        .iter()
+        .filter(|cube| cube.0 == color)
+        .reduce(|acc, cube| {
+            dbg!(cube);
+            if cube.1 > acc.1 {
+                cube
             } else {
-                max_cube = Some(cube)
+                acc
             }
-        }
-    }
-
-    max_cube
+        })
+        .unwrap()
 }
 
 fn part_two(input: &str) -> i32 {
@@ -87,21 +86,17 @@ fn part_two(input: &str) -> i32 {
     let mut powers = Vec::new();
 
     for line in input.lines() {
-        let mut cubes: Vec<Cube> = Vec::new();
+        let cubes: Vec<Cube> = cubes_re
+            .captures_iter(line)
+            .map(|c| {
+                let (_, [color, count]) = c.extract();
+                Cube::from((color, count))
+            })
+            .collect();
 
-        for (_, [count, color]) in cubes_re.captures_iter(line).map(|c| c.extract()) {
-            cubes.push((count, color).into())
-        }
-
-        let Cube(_, max_r) = find_max_cube_of_color(&cubes, CubeColor::Red)
-            .copied()
-            .unwrap();
-        let Cube(_, max_g): Cube = find_max_cube_of_color(&cubes, CubeColor::Green)
-            .copied()
-            .unwrap();
-        let Cube(_, max_b): Cube = find_max_cube_of_color(&cubes, CubeColor::Blue)
-            .copied()
-            .unwrap();
+        let Cube(_, max_r) = find_max_cube_of_color(&cubes, CubeColor::Red);
+        let Cube(_, max_g) = find_max_cube_of_color(&cubes, CubeColor::Green);
+        let Cube(_, max_b) = find_max_cube_of_color(&cubes, CubeColor::Blue);
 
         println!("r: {}, g: {}, b: {}", max_r, max_g, max_b);
         let power = max_r * max_g * max_b;
