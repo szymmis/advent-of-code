@@ -1,6 +1,4 @@
-mod array_2d;
-
-use array_2d::Array2D;
+use utils::array2d::Array2D;
 
 fn part_one(input: &str) -> i32 {
     let v = input
