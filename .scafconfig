@@ -25,3 +25,7 @@ dirname = "05"
 [2024.tasks.06]
 lang = "go"
 dirname = "06"
+
+[2024.tasks.07]
+lang = "go"
+dirname = "07"
