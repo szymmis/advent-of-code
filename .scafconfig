@@ -85,3 +85,11 @@ dirname = "08"
 [2024.tasks.09]
 lang = "go"
 dirname = "09"
+
+[2025]
+dirname = "2025"
+
+[2025.tasks]
+[2025.tasks.01]
+lang = "python"
+dirname = "01"
