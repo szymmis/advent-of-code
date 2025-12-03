@@ -5,31 +5,38 @@ def main():
     print("Part Two:", part_two(input))
 
 
-def part_one(input: list[str]):
+def compute_max_number(line: str, digits_count: int):
     sum = 0
+    digits_ptrs = [i for i in range(digits_count)]
 
-    for line in input:
-        first_ptr = 0
-        second_ptr = 1
-        for i in range(1, len(line) - 1):
-            value = int(line[i])
+    for char_idx in range(0, len(line)):
+        char_value = int(line[char_idx])
 
-            if value > int(line[first_ptr]):
-                first_ptr = i
-                second_ptr = i + 1
-            elif value > int(line[second_ptr]):
-                second_ptr = i
+        for idx, ptr in enumerate(digits_ptrs):
+            if char_idx > ptr and char_idx <= len(line) - (digits_count - idx):
+                if char_value > int(line[ptr]):
+                    for offset, i in enumerate(range(idx, digits_count)):
+                        digits_ptrs[i] = char_idx + offset
+                    break
 
-        if int(line[-1]) > int(line[second_ptr]):
-            second_ptr = len(line) - 1
-
-        sum += 10 * int(line[first_ptr]) + int(line[second_ptr])
+    for base, ptr in enumerate(reversed(digits_ptrs)):
+        sum += pow(10, base) * int(line[ptr])
 
     return sum
 
 
+def part_one(input: list[str]):
+    sum = 0
+    for line in input:
+        sum += compute_max_number(line, digits_count=2)
+    return sum
+
+
 def part_two(input):
-    return -1
+    sum = 0
+    for line in input:
+        sum += compute_max_number(line, digits_count=12)
+    return sum
 
 
 if __name__ == "__main__":
