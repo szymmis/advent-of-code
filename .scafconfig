@@ -97,3 +97,7 @@ dirname = "01"
 [2025.tasks.02]
 lang = "python"
 dirname = "02"
+
+[2025.tasks.03]
+lang = "python"
+dirname = "03"
